@@ -6,20 +6,37 @@ const AuthContext = createContext({})
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [user, setUser] = useState(null)
+  const [userRole, setUserRole] = useState(null)  
   const [loading, setLoading] = useState(true)
 
+  // ✅ NEW — fetches the role from your database
+  const fetchUserRole = async (userId) => {
+    const { data, error } = await supabase
+      .from('profiles')        // ⚠️ CHANGE THIS to your actual role table
+      .select('role')
+      .eq('id', userId)
+      .single()
+
+    if (!error && data) {
+      setUserRole(data.role)
+    }
+  }
+
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
-      setUser(session?.user ?? null)
+      const currentUser = session?.user ?? null  
+      setUser(currentUser)
+      if (currentUser) fetchUserRole(currentUser.id)  
       setLoading(false)
     })
 
-    // Listen for auth changes (login/logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
-      setUser(session?.user ?? null)
+      const currentUser = session?.user ?? null  
+      setUser(currentUser)
+      if (currentUser) fetchUserRole(currentUser.id)  
+      else setUserRole(null)  
       setLoading(false)
     })
 
@@ -31,7 +48,7 @@ export function AuthProvider({ children }) {
       email,
       password,
       options: {
-        data: userData // { first_name, last_name, username }
+        data: userData
       }
     })
     return { data, error }
@@ -52,7 +69,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     session,
-    user,
+    user: user ? { ...user, role: userRole } : null,  
     loading,
     signUp,
     signIn,
