@@ -1,14 +1,13 @@
-import { getEmployees } from '../lib/employeeService'
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { getEmployees } from '../lib/employeeService'  
 
 function EmployeeList() {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  
+
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
 
@@ -16,25 +15,14 @@ function EmployeeList() {
     fetchEmployees()
   }, [])
 
+ 
   async function fetchEmployees() {
-  try {
-    setLoading(true)
-    const data = await getEmployees(user)
-    setEmployees(data)
-  } catch (err) {
-    setError(err.message)
-  } finally {
-    setLoading(false)
-  }
-}
-        .select('*')
-        .order('empno')
-
-      if (error) throw error
+    try {
+      setLoading(true)
+      const data = await getEmployees(user)
       setEmployees(data)
-    } catch (error) {
-      setError(error.message)
-      console.error('Error fetching employees:', error)
+    } catch (err) {
+      setError(err.message)
     } finally {
       setLoading(false)
     }
@@ -64,9 +52,9 @@ function EmployeeList() {
   return (
     <div style={{ padding: '2rem' }}>
       {/* Navigation Bar */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '2rem',
         paddingBottom: '1rem',
@@ -95,10 +83,10 @@ function EmployeeList() {
 
       {/* Employee Table */}
       <h2 style={{ marginBottom: '1rem' }}>Employees</h2>
-      
+
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ 
-          width: '100%', 
+        <table style={{
+          width: '100%',
           borderCollapse: 'collapse',
           border: '1px solid #ddd'
         }}>
@@ -128,7 +116,7 @@ function EmployeeList() {
           </tbody>
         </table>
       </div>
-      
+
       <p style={{ marginTop: '1rem', color: '#666' }}>
         Total Employees: {employees.length}
       </p>
