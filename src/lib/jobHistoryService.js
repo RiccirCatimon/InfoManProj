@@ -6,7 +6,7 @@ export const getJobHistory = async (user) => {
     .select('*')
     .order('empno')
 
-  // Only show active records to regular users
+  
   if (user?.role === 'USER') {
     query = query.is('sepdate', null) // adjust column name if different
   }
