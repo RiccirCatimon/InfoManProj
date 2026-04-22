@@ -1,3 +1,4 @@
+import { getEmployees } from '../lib/employeeService'
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
@@ -16,10 +17,16 @@ function EmployeeList() {
   }, [])
 
   async function fetchEmployees() {
-    try {
-      setLoading(true)
-      const { data, error } = await supabase
-        .from('employee')
+  try {
+    setLoading(true)
+    const data = await getEmployees(user)
+    setEmployees(data)
+  } catch (err) {
+    setError(err.message)
+  } finally {
+    setLoading(false)
+  }
+}
         .select('*')
         .order('empno')
 
