@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null)  
   const [loading, setLoading] = useState(true)
 
-  // ✅ NEW — fetches the role from your database
+  
   const fetchUserRole = async (userId) => {
     const { data, error } = await supabase
       .from('profiles')        // ⚠️ CHANGE THIS to your actual role table
