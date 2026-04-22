@@ -1,12 +1,12 @@
 import { supabase } from './supabase'
 
-export const getDepartments = async (user) => {  // ✅ added user parameter
+export const getDepartments = async (user) => {  
   let query = supabase
     .from('department')
     .select('*')
     .order('deptcode')
 
-  // ✅ KEY LOGIC — same as employeeService
+  
   if (user?.role === 'USER') {
     query = query.eq('status', 'ACTIVE')
   }
