@@ -1,43 +1,45 @@
-import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
-import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useRights, RIGHTS } from '../hooks/useRights';
 
 function EmployeeList() {
-  const [employees, setEmployees] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const { user, signOut } = useAuth()
-  const navigate = useNavigate()
+  const { user, signOut } = useAuth();
+  const { hasRight } = useRights();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchEmployees()
-  }, [])
+    fetchEmployees();
+  }, []);
 
   async function fetchEmployees() {
     try {
-      setLoading(true)
+      setLoading(true);
 
       const { data, error } = await supabase
         .from('employee')
         .select('*')
-        .order('empno')
+        .order('empno');
 
-      if (error) throw error
+      if (error) throw error;
 
-      setEmployees(data)
+      setEmployees(data);
     } catch (error) {
-      setError(error.message)
-      console.error('Error fetching employees:', error)
+      setError(error.message);
+      console.error('Error fetching employees:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function handleLogout() {
-    await signOut()
-    navigate('/login')
+    await signOut();
+    navigate('/login');
   }
 
   if (loading) {
@@ -45,7 +47,7 @@ function EmployeeList() {
       <div style={{ padding: '2rem', textAlign: 'center' }}>
         Loading employees...
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -53,7 +55,7 @@ function EmployeeList() {
       <div style={{ padding: '2rem', textAlign: 'center', color: 'red' }}>
         Error: {error}
       </div>
-    )
+    );
   }
 
   return (
@@ -66,7 +68,7 @@ function EmployeeList() {
           alignItems: 'center',
           marginBottom: '2rem',
           paddingBottom: '1rem',
-          borderBottom: '1px solid #ddd'
+          borderBottom: '1px solid #ddd',
         }}
       >
         <h1 style={{ fontSize: '2rem', margin: 0 }}>
@@ -83,7 +85,7 @@ function EmployeeList() {
               color: 'white',
               border: 'none',
               borderRadius: '4px',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             Logout
@@ -91,63 +93,68 @@ function EmployeeList() {
         </div>
       </div>
 
-      {/* Employee Table */}
       <h2 style={{ marginBottom: '1rem' }}>Employees</h2>
 
-      <div style={{ overflowX: 'auto' }}>
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            border: '1px solid #ddd'
-          }}
-        >
-          <thead>
-            <tr style={{ backgroundColor: '#f2f2f2' }}>
-              <th style={thStyle}>Emp No</th>
-              <th style={thStyle}>Last Name</th>
-              <th style={thStyle}>First Name</th>
-              <th style={thStyle}>Gender</th>
-              <th style={thStyle}>Birth Date</th>
-              <th style={thStyle}>Hire Date</th>
-              <th style={thStyle}>Sep Date</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {employees.map((emp) => (
-              <tr key={emp.empno} style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={tdStyle}>{emp.empno}</td>
-                <td style={tdStyle}>{emp.lastname}</td>
-                <td style={tdStyle}>{emp.firstname}</td>
-                <td style={{ ...tdStyle, textAlign: 'center' }}>
-                  {emp.gender}
-                </td>
-                <td style={tdStyle}>{emp.birthdate}</td>
-                <td style={tdStyle}>{emp.hiredate}</td>
-                <td style={tdStyle}>{emp.sepdate || '-'}</td>
+      {/* Dito nagsisimula ang logic ng pagtatago */}
+      {hasRight(RIGHTS.EMP_VIEW) ? (
+        <div style={{ overflowX: 'auto' }}>
+          <table
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              border: '1px solid #ddd',
+            }}
+          >
+            <thead>
+              <tr style={{ backgroundColor: '#f2f2f2' }}>
+                <th style={thStyle}>Emp No</th>
+                <th style={thStyle}>Last Name</th>
+                <th style={thStyle}>First Name</th>
+                <th style={thStyle}>Gender</th>
+                <th style={thStyle}>Birth Date</th>
+                <th style={thStyle}>Hire Date</th>
+                <th style={thStyle}>Sep Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <p style={{ marginTop: '1rem', color: '#666' }}>
-        Total Employees: {employees.length}
-      </p>
+            </thead>
+            <tbody>
+              {employees.map((emp) => (
+                <tr key={emp.empno} style={{ borderBottom: '1px solid #ddd' }}>
+                  <td style={tdStyle}>{emp.empno}</td>
+                  <td style={tdStyle}>{emp.lastname}</td>
+                  <td style={tdStyle}>{emp.firstname}</td>
+                  <td style={{ ...tdStyle, textAlign: 'center' }}>
+                    {emp.gender}
+                  </td>
+                  <td style={tdStyle}>{emp.birthdate}</td>
+                  <td style={tdStyle}>{emp.hiredate}</td>
+                  <td style={tdStyle}>{emp.sepdate || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p style={{ marginTop: '1rem', color: '#666' }}>
+            Total Employees: {employees.length}
+          </p>
+        </div>
+      ) : (
+        <div style={{ padding: '2rem', textAlign: 'center', color: 'red' }}>
+          <h3>Access Denied</h3>
+          <p>Wala kang permission na makita ang listahan ng mga empleyado.</p>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 const thStyle = {
   padding: '12px',
   textAlign: 'left',
-  border: '1px solid #ddd'
-}
+  border: '1px solid #ddd',
+};
 
 const tdStyle = {
   padding: '10px',
-  border: '1px solid #ddd'
-}
+  border: '1px solid #ddd',
+};
 
-export default EmployeeList
+export default EmployeeList;
