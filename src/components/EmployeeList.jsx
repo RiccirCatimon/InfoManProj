@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
-import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import EmptyState from './EmptyState'
 
-function EmployeeList() {
+export default function EmployeeList() {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  const { user, signOut } = useAuth()
-  const navigate = useNavigate()
 
   useEffect(() => {
     fetchEmployees()
@@ -18,15 +14,13 @@ function EmployeeList() {
   async function fetchEmployees() {
     try {
       setLoading(true)
-
       const { data, error } = await supabase
         .from('employee')
         .select('*')
         .order('empno')
 
       if (error) throw error
-
-      setEmployees(data)
+      setEmployees(data || [])
     } catch (error) {
       setError(error.message)
       console.error('Error fetching employees:', error)
@@ -35,119 +29,97 @@ function EmployeeList() {
     }
   }
 
-  async function handleLogout() {
-    await signOut()
-    navigate('/login')
-  }
-
   if (loading) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        Loading employees...
+      <div className="flex flex-col items-center justify-center p-12 min-h-[400px]">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-sm text-gray-500 font-medium mt-4">Loading employee roster...</p>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center', color: 'red' }}>
-        Error: {error}
+      <div className="p-8 text-center bg-red-50 border border-red-200 rounded-2xl max-w-xl mx-auto my-12">
+        <div className="text-3xl mb-2">⚠️</div>
+        <h3 className="text-lg font-bold text-red-800">Database Connection Error</h3>
+        <p className="text-sm text-red-600 mt-1 mb-4">{error}</p>
+        <button 
+          onClick={fetchEmployees}
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition-colors"
+        >
+          Retry Connection
+        </button>
       </div>
     )
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      {/* Navigation Bar */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem',
-          paddingBottom: '1rem',
-          borderBottom: '1px solid #ddd'
-        }}
-      >
-        <h1 style={{ fontSize: '2rem', margin: 0 }}>
-          Hope, Inc. HR System
-        </h1>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span>Welcome, {user?.email}</span>
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: '#dc3545',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            Logout
-          </button>
+    <div className="space-y-6">
+      {/* Top Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Active Employee Registry</h2>
+          <p className="text-sm text-gray-500 mt-1">Review organizational hires, biological profile keys, and historic separation dates.</p>
         </div>
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition-all flex items-center gap-2">
+          <span>＋</span> Add New Employee
+        </button>
       </div>
 
-      {/* Employee Table */}
-      <h2 style={{ marginBottom: '1rem' }}>Employees</h2>
+      {/* Main UI Block with Custom Reusable Empty State */}
+      {!employees || employees.length === 0 ? (
+        <EmptyState 
+          icon="👥"
+          title="No Employees Found"
+          description="There are currently no staff accounts registered in the database. Add an employee to populate the roster."
+          actionLabel="+ Add New Employee"
+          onActionClick={() => console.log("Open Add Employee modal")}
+        />
+      ) : (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Emp No</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Last Name</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">First Name</th>
+                  <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Gender</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Birth Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Hire Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Sep Date</th>
+                </tr>
+              </thead>
 
-      <div style={{ overflowX: 'auto' }}>
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            border: '1px solid #ddd'
-          }}
-        >
-          <thead>
-            <tr style={{ backgroundColor: '#f2f2f2' }}>
-              <th style={thStyle}>Emp No</th>
-              <th style={thStyle}>Last Name</th>
-              <th style={thStyle}>First Name</th>
-              <th style={thStyle}>Gender</th>
-              <th style={thStyle}>Birth Date</th>
-              <th style={thStyle}>Hire Date</th>
-              <th style={thStyle}>Sep Date</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {employees.map((emp) => (
-              <tr key={emp.empno} style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={tdStyle}>{emp.empno}</td>
-                <td style={tdStyle}>{emp.lastname}</td>
-                <td style={tdStyle}>{emp.firstname}</td>
-                <td style={{ ...tdStyle, textAlign: 'center' }}>
-                  {emp.gender}
-                </td>
-                <td style={tdStyle}>{emp.birthdate}</td>
-                <td style={tdStyle}>{emp.hiredate}</td>
-                <td style={tdStyle}>{emp.sepdate || '-'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <p style={{ marginTop: '1rem', color: '#666' }}>
-        Total Employees: {employees.length}
-      </p>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {employees.map((emp) => (
+                  <tr key={emp.empno} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{emp.empno}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700">{emp.lastname}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-700">{emp.firstname}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                      <span className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                        emp.gender === 'M' ? 'bg-indigo-50 text-indigo-700' : 'bg-pink-50 text-pink-700'
+                      }`}>
+                        {emp.gender}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{emp.birthdate}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{emp.hiredate}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{emp.sepdate || '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* Table Footer Stats Bar */}
+          <div className="bg-gray-50 border-t border-gray-200 px-6 py-3 flex items-center justify-between text-xs text-gray-500 font-medium">
+            <span>Total Headcount:</span>
+            <span className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded font-bold">{employees.length} Employees</span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-
-const thStyle = {
-  padding: '12px',
-  textAlign: 'left',
-  border: '1px solid #ddd'
-}
-
-const tdStyle = {
-  padding: '10px',
-  border: '1px solid #ddd'
-}
-
-export default EmployeeList
