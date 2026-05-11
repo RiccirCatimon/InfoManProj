@@ -9,7 +9,7 @@ import DepartmentList from './pages/DepartmentList';
 import JobList from './pages/JobList';
 import JobHistory from './pages/JobHistory';
 import AdminModule from './pages/AdminModule';
-import DeletedItems from './pages/Deleteditems'; 
+import DeletedItems from './pages/Deleteditems';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -17,15 +17,17 @@ const ProtectedRoute = ({ children }) => {
   return user ? children : <Navigate to="/login" />;
 };
 
-function App() {
-  const { user } = useAuth();
+export default function App() {
+  const { user, loading } = useAuth();
+
+  if (loading) return <div className="h-screen flex items-center justify-center">Loading...</div>;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-100">
       {user && <Navbar />}
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         {user && <Sidebar />}
-        <main className="flex-1 p-4 bg-gray-50">
+        <main className="flex-1 p-6 overflow-auto bg-white">
           <Routes>
             <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
             <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -42,5 +44,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
