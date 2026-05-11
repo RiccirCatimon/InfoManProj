@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import EmptyState from './EmptyState'
+import { getEmployees } from '../../employeeService'
 
 export default function EmployeeList() {
   const [employees, setEmployees] = useState([])
@@ -8,26 +9,23 @@ export default function EmployeeList() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetchEmployees()
-  }, [])
+    fetchEmployees();
+  }, []);
 
-  async function fetchEmployees() {
+  const fetchEmployees = async () => {
     try {
-      setLoading(true)
-      const { data, error } = await supabase
-        .from('employee')
-        .select('*')
-        .order('empno')
-
-      if (error) throw error
-      setEmployees(data || [])
-    } catch (error) {
-      setError(error.message)
-      console.error('Error fetching employees:', error)
+      setLoading(true);
+      setError(null);
+      // Calling the imported named function directly instead of using employeeService.getEmployees()
+      const data = await getEmployees();
+      setEmployees(data || []);
+    } catch (err) {
+      console.error('Error fetching employees:', err);
+      setError(err.message || 'Failed to fetch employee list.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   if (loading) {
     return (
