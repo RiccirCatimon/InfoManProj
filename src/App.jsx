@@ -21,7 +21,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* PR-04: SIDEBAR/NAV GATING */}
       <nav className="bg-white shadow-md p-4 flex justify-between items-center">
         <div className="flex gap-4">
           {rights['EMP_VIEW'] && (
@@ -36,16 +35,12 @@ function App() {
         </div>
         
         <div className="flex items-center gap-4">
-          {/* PR-04: SYSTEM STAMP GATING */}
           {rights['STAMP_VIEW'] && (
             <span className="text-xs text-gray-400 italic bg-gray-50 p-1 rounded border">
               System Stamp: {new Date().toLocaleTimeString()}
             </span>
           )}
-          <button 
-            onClick={logout} 
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm transition-colors"
-          >
+          <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded text-sm">
             Logout
           </button>
         </div>
@@ -54,65 +49,8 @@ function App() {
       <div className="p-8">
         <Routes>
           <Route path="/employees" element={<EmployeeList />} />
-          
-          {/* PR-03: JOB MODULE GATING */}
-          <Route path="/jobs" element={
-            <div className="bg-white p-6 rounded shadow">
-              <div className="flex justify-between mb-4 border-b pb-2">
-                <h2 className="text-xl font-bold text-gray-700">Job Management</h2>
-                {rights['JOB_ADD'] && (
-                  <button className="bg-green-500 text-white px-4 py-2 rounded text-sm">+ Add Job</button>
-                )}
-              </div>
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 text-left">
-                    <th className="p-3 border">Job Title</th>
-                    <th className="p-3 border text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="p-3 border">Software Engineer</td>
-                    <td className="p-3 border text-center">
-                      {rights['JOB_EDIT'] && <button className="text-blue-500 hover:underline mr-3">Edit</button>}
-                      {rights['JOB_DEL'] && <button className="text-red-500 hover:underline">Delete</button>}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          } />
-
-          {/* PR-03: DEPARTMENT MODULE GATING */}
-          <Route path="/departments" element={
-            <div className="bg-white p-6 rounded shadow">
-              <div className="flex justify-between mb-4 border-b pb-2">
-                <h2 className="text-xl font-bold text-gray-700">Departments</h2>
-                {rights['DEPT_ADD'] && (
-                  <button className="bg-green-500 text-white px-4 py-2 rounded text-sm">+ Add Dept</button>
-                )}
-              </div>
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 text-left">
-                    <th className="p-3 border">Dept Name</th>
-                    <th className="p-3 border text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="p-3 border">IT Department</td>
-                    <td className="p-3 border text-center">
-                      {rights['DEPT_EDIT'] && <button className="text-blue-500 hover:underline mr-3">Edit</button>}
-                      {rights['DEPT_DEL'] && <button className="text-red-500 hover:underline">Delete</button>}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          } />
-
+          <Route path="/jobs" element={<div className="p-4 bg-white rounded shadow">Job Management Section</div>} />
+          <Route path="/departments" element={<div className="p-4 bg-white rounded shadow">Departments Section</div>} />
           <Route path="*" element={<Navigate to="/employees" />} />
         </Routes>
       </div>
