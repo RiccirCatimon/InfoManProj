@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase } from "./src/lib/supabase.js";
 
 export const getEmployees = async (user) => {
   let query = supabase
