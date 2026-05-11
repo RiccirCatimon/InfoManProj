@@ -1,86 +1,70 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { RightsProvider } from './context/RightsContext';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import EmployeeList from './components/EmployeeList';
-import ProtectedRoute from './components/ProtectedRoute';
-import { useRights, RIGHTS } from './hooks/useRights';
+import React from 'react';
+import { useAuth } from "../context/AuthContext";
+import { useRights } from "../context/UserRightsContext";
 
-// Gumawa tayo ng hiwalay na component para sa Navigation para gumana ang useRights
-function Navigation() {
-  const { hasRight } = useRights();
+const EmployeeList = () => {
+  const { user } = useAuth();
+  const { rights } = useRights();
+
+  // Mock data para may makita ka sa screen
+  const employees = [
+    { id: 1, name: "Gian Gallamos", role: "Rights & Auth Specialist" },
+    { id: 2, name: "Riccir Catimon", role: "Lead Developer" },
+  ];
 
   return (
-    <nav style={{ 
-      display: 'flex', 
-      gap: '1.5rem', 
-      padding: '1rem', 
-      backgroundColor: '#f8f9fa',
-      borderBottom: '1px solid #ddd',
-      marginBottom: '1rem' 
-    }}>
-      <Link to="/" style={{ fontWeight: 'bold', textDecoration: 'none', color: '#333' }}> Home </Link>
-      
-      {/* Lalabas lang ang Employees link kung may EMP_VIEW right */}
-      {hasRight(RIGHTS.EMP_VIEW) && (
-        <Link to="/employees" style={{ textDecoration: 'none', color: '#007bff' }}> Employees </Link>
-      )}
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Employee Directory</h2>
+        
+        {/* GATING: Button is only visible if user has ADD right */}
+        {rights['EMP_ADD'] && (
+          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+            + Add New Employee
+          </button>
+        )}
+      </div>
 
-      {/* Lalabas lang ang Audit Stamp link kung may STAMP_VIEW right */}
-      {hasRight(RIGHTS.STAMP_VIEW) && (
-        <Link to="/audit-stamp" style={{ textDecoration: 'none', color: '#007bff' }}> Audit Stamp </Link>
-      )}
-    </nav>
-  );
-}
-
-function App() {
-  return (
-    <AuthProvider>
-      <RightsProvider>
-        <Router>
-          <Navigation />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            
-            {/* Protected Routes */}
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <div style={{ padding: '2rem' }}>
-                    <h1>Welcome to Hope, Inc. HR System</h1>
-                    <p>Gamitin ang navigation sa taas para mag-check ng employees.</p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="p-3 border-b">ID</th>
+              <th className="p-3 border-b">Name</th>
+              <th className="p-3 border-b">Role</th>
+              <th className="p-3 border-b">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((emp) => (
+              <tr key={emp.id} className="hover:bg-gray-50">
+                <td className="p-3 border-b">{emp.id}</td>
+                <td className="p-3 border-b font-medium">{emp.name}</td>
+                <td className="p-3 border-b text-gray-600">{emp.role}</td>
+                <td className="p-3 border-b">
+                  <div className="flex gap-2">
+                    {/* GATING: Edit/Delete buttons visible only with rights */}
+                    {rights['EMP_EDIT'] && (
+                      <button className="text-blue-500 hover:underline text-sm">Edit</button>
+                    )}
+                    {rights['EMP_DELETE'] && (
+                      <button className="text-red-500 hover:underline text-sm">Delete</button>
+                    )}
                   </div>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/employees"
-              element={
-                <ProtectedRoute>
-                  <EmployeeList />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/audit-stamp"
-              element={
-                <ProtectedRoute>
-                  <div style={{ padding: '2rem' }}>
-                    <h2>Audit Stamp Page</h2>
-                    <p>Dito makikita ang mga logs sa susunod na task.</p>
-                  </div>
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </Router>
-      </RightsProvider>
-    </AuthProvider>
-  );
-}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-export default App;
+      {/* FOOTER INFO PARA SA PR-02 DOCUMENTATION */}
+      <div className="mt-8 pt-4 border-t text-xs text-gray-400">
+        Logged in as: <span className="font-bold text-gray-600">{user?.email}</span> | 
+        Rights Level: <span className="text-green-600 font-bold uppercase">{rights['ADMIN_VIEW'] ? 'Admin' : 'Standard User'}</span>
+      </div>
+    </div>
+  );
+};
+
+export default EmployeeList;
