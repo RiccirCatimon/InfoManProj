@@ -71,11 +71,11 @@ export default function App() {
               {/* Admin Module — Sprint 3 */}
               <Route path="/user-management" element={user ? <AdminRoute><UserManagementPage /></AdminRoute> : <Navigate to="/login" />} />
 
-              {/* Reports — Sprint 3 */}
-              <Route path="/reports"                   element={user ? <Reports />                    : <Navigate to="/login" />} />
-              <Route path="/reports/headcount"         element={user ? <HeadcountByDeptPage />        : <Navigate to="/login" />} />
-              <Route path="/reports/salary"            element={user ? <SalaryReportPage />           : <Navigate to="/login" />} />
-              <Route path="/reports/employee-history"  element={user ? <EmployeeHistoryReportPage />  : <Navigate to="/login" />} />
+              {/* Reports — ADMIN/SUPERADMIN only for security */}
+              <Route path="/reports"                   element={user ? <AdminRoute><Reports /></AdminRoute>                    : <Navigate to="/login" />} />
+              <Route path="/reports/headcount"         element={user ? <AdminRoute><HeadcountByDeptPage /></AdminRoute>        : <Navigate to="/login" />} />
+              <Route path="/reports/salary"            element={user ? <AdminRoute><SalaryReportPage /></AdminRoute>           : <Navigate to="/login" />} />
+              <Route path="/reports/employee-history"  element={user ? <AdminRoute><EmployeeHistoryReportPage /></AdminRoute>  : <Navigate to="/login" />} />
 
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
