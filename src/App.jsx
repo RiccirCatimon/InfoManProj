@@ -23,8 +23,9 @@ import Reports from './pages/Reports'
 // Route guard: blocks USER role from accessing ADMIN/SUPERADMIN only routes
 function AdminRoute({ children }) {
   const { user } = useAuth()
-  const role = user?.user_metadata?.role ?? 'USER'
-  if (role === 'USER') return <Navigate to="/" replace />
+  // Fix: Check user_type from database, not metadata
+  const type = user?.user_type ?? 'USER'
+  if (type === 'USER') return <Navigate to="/" replace />
   return children
 }
 
