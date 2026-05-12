@@ -71,7 +71,10 @@ export function AuthProvider({ children }) {
           .eq('id', session.user.id)
           .single()
         
-        if (userRow?.record_status !== 'ACTIVE') {
+        // Allow login if ACTIVE or if they are a SUPERADMIN
+        const isAllowed = userRow?.record_status === 'ACTIVE' || userRow?.user_type === 'SUPERADMIN';
+        
+        if (userRow && !isAllowed) {
           await supabase.auth.signOut()
           alert('Your account is pending activation by an HR administrator.')
           setUser(null)
