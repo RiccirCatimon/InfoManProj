@@ -8,14 +8,20 @@ const AuthContext = createContext({})
 // Replace with your real Supabase URL + key to switch to live auth.
 const DEMO_ACCOUNTS = [
   {
-    id: 'demo-superadmin',
-    email: 'admin@hopehrs.com',
+    id: 'user1',
+    email: 'riccir.catimon@hopehrs.com',
     password: 'admin123',
     user_metadata: { first_name: 'Riccir', last_name: 'Catimon', username: 'riccir', role: 'SUPERADMIN' }
   },
   {
-    id: 'demo-user',
-    email: 'user@hopehrs.com',
+    id: 'user2',
+    email: 'denverlee.felix@hopehrs.com',
+    password: 'admin123',
+    user_metadata: { first_name: 'Denver', last_name: 'Felix', username: 'denver', role: 'ADMIN' }
+  },
+  {
+    id: 'user3',
+    email: 'jane.doe@hopehrs.com',
     password: 'user123',
     user_metadata: { first_name: 'Jane', last_name: 'Doe', username: 'janedoe', role: 'USER' }
   }

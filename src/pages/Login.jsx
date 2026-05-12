@@ -45,7 +45,7 @@ function Login() {
         {/* Demo mode hint */}
         {!SUPABASE_CONFIGURED && (
           <div style={styles.demoHint}>
-            <strong>Demo Mode</strong> — use <code>admin@hopehrs.com</code> / <code>admin123</code>
+            <strong>Demo Mode</strong> — use <code>riccir.catimon@hopehrs.com</code> / <code>admin123</code>
           </div>
         )}
 
