@@ -10,14 +10,14 @@ BEGIN
         stamp = 'CASCADE-DEL-' || NEW.empno || '-' || NOW()::text
     WHERE empno = NEW.empno;
   END IF;
-  
+
   IF NEW.record_status = 'ACTIVE' AND OLD.record_status = 'INACTIVE' THEN
     UPDATE jobhistory
     SET record_status = 'ACTIVE',
         stamp = 'CASCADE-RECOVER-' || NEW.empno || '-' || NOW()::text
     WHERE empno = NEW.empno;
   END IF;
-  
+
   RETURN NEW;
 END;
 $$;

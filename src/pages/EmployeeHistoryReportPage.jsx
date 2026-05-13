@@ -1,5 +1,5 @@
-// src/pages/EmployeeHistoryReportPage.jsx
-// M2 Sprint 3 PR-02: feat/ui-reports
+
+
 import { useEffect, useState } from 'react'
 import { getEmployeeFullHistory } from '../lib/reportsService'
 import { getEmployees } from '../lib/employeeService'
@@ -34,7 +34,7 @@ export default function EmployeeHistoryReportPage() {
         <p className="text-sm text-gray-500 mt-1">Select an employee to view their complete job history chronologically.</p>
       </div>
 
-      {/* Employee Selector */}
+      {}
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 flex flex-col sm:flex-row gap-3 items-end">
         <div className="flex-1">
           <label className="block text-xs font-semibold text-gray-600 mb-1.5">Select Employee</label>
@@ -48,10 +48,10 @@ export default function EmployeeHistoryReportPage() {
         </button>
       </div>
 
-      {/* Results */}
+      {}
       {result && (
         <div className="space-y-5">
-          {/* Profile Summary */}
+          {}
           {result.employee && (
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-blue-200 flex items-center justify-center text-xl font-bold text-blue-700">
@@ -66,7 +66,7 @@ export default function EmployeeHistoryReportPage() {
             </div>
           )}
 
-          {/* History Table */}
+          {}
           <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h3 className="text-sm font-bold text-gray-800">Job History — Chronological</h3>

@@ -1,17 +1,10 @@
-// src/lib/jobHistoryService.js
-// M1 — PR-02: feat/jobhistory-api
+
+
 import { supabase, SUPABASE_CONFIGURED } from './supabase'
 import { _getMockJobHistory, _setMockJobHistory } from './employeeService'
 
-// Helper: audit trail stamp (Section 8.1)
 const makeStamp = (action, userId = 'admin') => `${action}-${userId.slice(0, 5)}-${new Date().toISOString().slice(0, 10)}`
 
-// ─────────────────────────────────────────────────────────────────────────────
-// getJobHistory(empNo, userType)
-//   empNo = null → return all rows (used by DeletedItemsPage)
-//   USER        → only record_status = 'ACTIVE'
-//   ADMIN/SUPERADMIN → all rows
-// ─────────────────────────────────────────────────────────────────────────────
 export const getJobHistory = async (empNo, userType) => {
   if (!SUPABASE_CONFIGURED) {
     let rows = _getMockJobHistory()
@@ -33,9 +26,6 @@ export const getJobHistory = async (empNo, userType) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// addJobHistory(record, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const addJobHistory = async (record, userId) => {
   const newRow = {
     ...record,
@@ -53,9 +43,6 @@ export const addJobHistory = async (record, userId) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// updateJobHistory(id, updates, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const updateJobHistory = async (id, updates, userId) => {
   const patch = { ...updates, stamp: makeStamp('UPDATED', userId) }
   if (!SUPABASE_CONFIGURED) {
@@ -67,9 +54,6 @@ export const updateJobHistory = async (id, updates, userId) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// softDeleteJobHistory(id, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const softDeleteJobHistory = async (id, userId) => {
   const patch = { record_status: 'INACTIVE', stamp: makeStamp('DEACTIVATED', userId) }
   if (!SUPABASE_CONFIGURED) {
@@ -81,9 +65,6 @@ export const softDeleteJobHistory = async (id, userId) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// recoverJobHistory(id, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const recoverJobHistory = async (id, userId) => {
   const patch = { record_status: 'ACTIVE', stamp: makeStamp('REACTIVATED', userId) }
   if (!SUPABASE_CONFIGURED) {

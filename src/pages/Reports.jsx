@@ -40,7 +40,7 @@ export default function Reports() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {reportCards.map((report) => (
-          <div 
+          <div
             key={report.id}
             onClick={() => navigate(report.path)}
             className="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
@@ -70,7 +70,7 @@ export default function Reports() {
           <div>
             <h4 className="text-sm font-bold text-slate-800">About Live Reports</h4>
             <p className="text-sm text-slate-600 mt-1">
-              These reports are generated from SQL views in real-time. They only include employees with an <strong>ACTIVE</strong> record status. 
+              These reports are generated from SQL views in real-time. They only include employees with an <strong>ACTIVE</strong> record status.
               Admin and Superadmin users have full access to these metrics, while general users may have limited visibility based on their assigned rights.
             </p>
           </div>

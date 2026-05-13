@@ -1,12 +1,11 @@
-// src/context/UserRightsContext.jsx
-// M4 — PR-01: feat/rights-context — 17 rights aligned with PROJECT DEVELOPMENT GUIDE
+
+
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './AuthContext'
 import { SUPABASE_CONFIGURED, supabase } from '../lib/supabase'
 
 const UserRightsContext = createContext()
 
-// All 17 rights constants exactly as per Section 2.7 of the Guide
 export const RIGHTS = {
   EMP_VIEW:   'EMP_VIEW',
   EMP_ADD:    'EMP_ADD',
@@ -27,7 +26,6 @@ export const RIGHTS = {
   ADM_USER:   'ADM_USER',
 }
 
-// Demo rights per role (Section 3.2 Rights Matrix)
 const DEMO_RIGHTS = {
   SUPERADMIN: {
     EMP_VIEW: true, EMP_ADD: true, EMP_EDIT: true, EMP_DEL: true,
@@ -73,12 +71,10 @@ export const UserRightsProvider = ({ children }) => {
           .select('right_code, has_access')
           .eq('user_id', user.id)
         if (error) throw error
-        
+
         const map = {}
         data.forEach(r => { map[r.right_code] = r.has_access === 1 || r.has_access === true })
-        
-        // As requested: ensure USER role also gets all rights in the UI
-        // We override with DEMO_RIGHTS if standard user to bypass DB restrictions for now
+
         const role = user?.user_type || user?.user_metadata?.role || 'USER'
         if (role === 'USER') {
           setRights(DEMO_RIGHTS.USER)

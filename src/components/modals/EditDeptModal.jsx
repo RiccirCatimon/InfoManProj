@@ -1,4 +1,4 @@
-// src/components/modals/EditDeptModal.jsx
+
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { updateDept } from '../../lib/departmentService'

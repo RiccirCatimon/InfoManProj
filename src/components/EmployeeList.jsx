@@ -16,7 +16,7 @@ export default function EmployeeList() {
     try {
       setLoading(true);
       setError(null);
-      // Calling the imported named function directly instead of using employeeService.getEmployees()
+
       const data = await getEmployees();
       setEmployees(data || []);
     } catch (err) {
@@ -42,7 +42,7 @@ export default function EmployeeList() {
         <div className="text-3xl mb-2">⚠️</div>
         <h3 className="text-lg font-bold text-red-800">Database Connection Error</h3>
         <p className="text-sm text-red-600 mt-1 mb-4">{error}</p>
-        <button 
+        <button
           onClick={fetchEmployees}
           className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition-colors"
         >
@@ -54,7 +54,7 @@ export default function EmployeeList() {
 
   return (
     <div className="space-y-6">
-      {/* Top Header */}
+      {}
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Active Employee Registry</h2>
@@ -65,9 +65,9 @@ export default function EmployeeList() {
         </button>
       </div>
 
-      {/* Main UI Block with Custom Reusable Empty State */}
+      {}
       {!employees || employees.length === 0 ? (
-        <EmptyState 
+        <EmptyState
           icon="👥"
           title="No Employees Found"
           description="There are currently no staff accounts registered in the database. Add an employee to populate the roster."
@@ -111,7 +111,7 @@ export default function EmployeeList() {
               </tbody>
             </table>
           </div>
-          {/* Table Footer Stats Bar */}
+          {}
           <div className="bg-gray-50 border-t border-gray-200 px-6 py-3 flex items-center justify-between text-xs text-gray-500 font-medium">
             <span>Total Headcount:</span>
             <span className="bg-gray-200 text-gray-800 px-2 py-0.5 rounded font-bold">{employees.length} Employees</span>

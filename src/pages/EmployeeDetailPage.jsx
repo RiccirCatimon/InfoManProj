@@ -1,5 +1,5 @@
-// src/pages/EmployeeDetailPage.jsx
-// M2 PR-02: feat/ui-employee-detail-jh
+
+
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -56,7 +56,7 @@ export default function EmployeeDetailPage() {
         <button onClick={() => navigate('/employees')} className="text-sm text-gray-500 hover:text-blue-600 transition-colors">← Back to Employees</button>
       </div>
 
-      {/* Profile Card */}
+      {}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
         <div className="flex items-start gap-5">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-600 flex-shrink-0">
@@ -78,7 +78,7 @@ export default function EmployeeDetailPage() {
         </div>
       </div>
 
-      {/* Job History Panel */}
+      {}
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div>

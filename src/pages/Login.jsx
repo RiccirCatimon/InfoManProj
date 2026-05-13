@@ -9,7 +9,7 @@ function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  
+
   const { signIn } = useAuth()
   const navigate = useNavigate()
 
@@ -17,9 +17,9 @@ function Login() {
     e.preventDefault()
     setError('')
     setLoading(true)
-    
+
     const { error } = await signIn(email, password)
-    
+
     if (error) {
       setError(error.message)
       setLoading(false)
@@ -31,7 +31,7 @@ function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* Logo and Header - FIXED FOR READABILITY */}
+        {}
         <div style={styles.header}>
           <div style={styles.logoContainer}>
             <div style={styles.logo}>
@@ -42,14 +42,14 @@ function Login() {
           <p style={styles.subtitle}>Sign in to your account</p>
         </div>
 
-        {/* Demo mode hint */}
+        {}
         {!SUPABASE_CONFIGURED && (
           <div style={styles.demoHint}>
             <strong>Demo Mode</strong> — use <code>riccir.catimon@hopehrs.com</code> / <code>admin123</code>
           </div>
         )}
 
-        {/* Error Message */}
+        {}
         {error && (
           <div style={styles.error}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -61,7 +61,7 @@ function Login() {
           </div>
         )}
 
-        {/* Login Form */}
+        {}
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Email Address</label>
@@ -149,7 +149,7 @@ function Login() {
           </button>
         </form>
 
-        {/* Register Link */}
+        {}
         <p style={styles.footer}>
           Don't have an account?{' '}
           <Link to="/register" style={styles.link}>Create an account</Link>
@@ -351,7 +351,6 @@ const styles = {
   },
 }
 
-// Add this to your index.css or add a style tag in main.jsx
 if (typeof document !== 'undefined') {
   const styleSheet = document.createElement("style")
   styleSheet.textContent = `

@@ -3,9 +3,6 @@ import { supabase, SUPABASE_CONFIGURED } from '../lib/supabase'
 
 const AuthContext = createContext({})
 
-// ── Demo/offline mock accounts ─────────────────────────────────────────────
-// These are used when .env has no real Supabase credentials.
-// Replace with your real Supabase URL + key to switch to live auth.
 const DEMO_ACCOUNTS = [
   {
     id: 'user1',
@@ -36,7 +33,6 @@ function saveDemoSession(user) {
   if (user) localStorage.setItem(SESSION_KEY, JSON.stringify(user))
   else localStorage.removeItem(SESSION_KEY)
 }
-// ───────────────────────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
@@ -45,7 +41,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!SUPABASE_CONFIGURED) {
-      // Demo mode: restore previous session from localStorage
+
       const saved = loadDemoSession()
       if (saved) {
         setUser(saved)
@@ -55,7 +51,6 @@ export function AuthProvider({ children }) {
       return
     }
 
-    // Real Supabase mode
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
@@ -64,20 +59,19 @@ export function AuthProvider({ children }) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session) {
-        // Section 4.2 Login Guard
+
         const { data: userRow } = await supabase
           .from('users')
           .select('record_status, user_type')
           .eq('id', session.user.id)
           .single()
-        
+
         if (userRow) {
-          // Merge user_type into the user object so App.jsx can see it
+
           session.user.user_type = userRow.user_type;
-          
-          // Allow login if ACTIVE or if they are a SUPERADMIN
+
           const isAllowed = userRow.record_status === 'ACTIVE' || userRow.user_type === 'SUPERADMIN';
-          
+
           if (!isAllowed) {
             await supabase.auth.signOut()
             alert('Your account is pending activation by an HR administrator.')
@@ -114,7 +108,7 @@ export function AuthProvider({ children }) {
 
   const signUp = async (email, password, userData) => {
     if (!SUPABASE_CONFIGURED) {
-      // Demo mode: pretend it worked — they need real Supabase to persist accounts
+
       return { data: { user: { email } }, error: null }
     }
     return supabase.auth.signUp({ email, password, options: { data: userData } })
@@ -128,7 +122,7 @@ export function AuthProvider({ children }) {
       return { error: null }
     }
     const { error } = await supabase.auth.signOut()
-    // Manually clear state to ensure UI updates even if onAuthStateChange is delayed
+
     if (!error) {
       setUser(null)
       setSession(null)

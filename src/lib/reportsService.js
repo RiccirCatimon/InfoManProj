@@ -1,9 +1,8 @@
-// src/lib/reportsService.js
-// M1 Sprint 3 — PR-02: feat/reports-api
+
+
 import { supabase, SUPABASE_CONFIGURED } from './supabase'
 import { mockHeadcountByDept, mockSalarySummaryByJob, mockJobHistory, mockHREmployees } from '../mock/data'
 
-// getHeadcountByDept() — from headcount_by_dept view
 export const getHeadcountByDept = async () => {
   if (!SUPABASE_CONFIGURED) return [...mockHeadcountByDept]
   const { data, error } = await supabase.from('headcount_by_dept').select('*').order('headcount', { ascending: false })
@@ -11,7 +10,6 @@ export const getHeadcountByDept = async () => {
   return data
 }
 
-// getSalarySummaryByJob() — from salary_summary_by_job view
 export const getSalarySummaryByJob = async () => {
   if (!SUPABASE_CONFIGURED) return [...mockSalarySummaryByJob]
   const { data, error } = await supabase.from('salary_summary_by_job').select('*').order('avg_salary', { ascending: false })
@@ -19,7 +17,6 @@ export const getSalarySummaryByJob = async () => {
   return data
 }
 
-// getEmployeeFullHistory(empNo) — all job history rows for one employee, chronological
 export const getEmployeeFullHistory = async (empNo) => {
   if (!SUPABASE_CONFIGURED) {
     const emp = mockHREmployees.find(e => e.empno === empNo)
@@ -39,7 +36,6 @@ export const getEmployeeFullHistory = async (empNo) => {
   return { employee: emp, history: history ?? [] }
 }
 
-// getDashboardStats() — consolidated metrics for the dashboard
 export const getDashboardStats = async () => {
   if (!SUPABASE_CONFIGURED) {
     return {

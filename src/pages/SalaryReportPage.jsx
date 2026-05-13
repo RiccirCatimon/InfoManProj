@@ -1,5 +1,5 @@
-// src/pages/SalaryReportPage.jsx
-// M2 Sprint 3 PR-02: feat/ui-reports
+
+
 import { useEffect, useState } from 'react'
 import { getSalarySummaryByJob } from '../lib/reportsService'
 
@@ -29,7 +29,7 @@ export default function SalaryReportPage() {
 
       {!loading && !error && (
         <>
-          {/* Stat Cards */}
+          {}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { label: 'Highest Avg Salary', value: fmt(Math.max(...data.map(d => d.avg_salary))), color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
@@ -43,7 +43,7 @@ export default function SalaryReportPage() {
             ))}
           </div>
 
-          {/* Table */}
+          {}
           <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">

@@ -4,7 +4,7 @@ import EmptyState from '../components/EmptyState'
 export default function UserManagement() {
   return (
     <div className="space-y-6">
-      {/* Top Action Bar */}
+      {}
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 tracking-tight">User Management</h2>
@@ -15,9 +15,9 @@ export default function UserManagement() {
         </button>
       </div>
 
-      {/* Reusable Empty State Validation */}
+      {}
       {!mockEmployees || mockEmployees.length === 0 ? (
-        <EmptyState 
+        <EmptyState
           icon="🔑"
           title="No User Accounts Found"
           description="There are currently no administrative or staff user profiles registered in the database."
@@ -25,7 +25,7 @@ export default function UserManagement() {
           onActionClick={() => console.log("Open Add User Modal")}
         />
       ) : (
-        /* Main Table Card */
+
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -62,8 +62,8 @@ export default function UserManagement() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                        emp.status === 'Active' 
-                          ? 'bg-emerald-50 text-emerald-700' 
+                        emp.status === 'Active'
+                          ? 'bg-emerald-50 text-emerald-700'
                           : 'bg-amber-50 text-amber-700'
                       }`}>
                         <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
@@ -78,7 +78,7 @@ export default function UserManagement() {
                           <span className="text-gray-400 bg-gray-100 px-2.5 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1 select-none">
                             🔒 Protected
                           </span>
-                          {/* Hover Tooltip */}
+                          {}
                           <div className="absolute right-0 bottom-full mb-2 hidden group-hover:block bg-slate-800 text-white text-[10px] py-1 px-2 rounded shadow-lg whitespace-nowrap z-10">
                             Superadmin accounts cannot be edited or deactivated
                           </div>

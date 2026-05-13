@@ -1,4 +1,4 @@
-// src/components/modals/EditJobHistoryModal.jsx
+
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { updateJobHistory } from '../../lib/jobHistoryService'

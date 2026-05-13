@@ -1,16 +1,12 @@
-// src/lib/jobService.js
-// M1 — PR-03: feat/job-dept-api
+
+
 import { supabase, SUPABASE_CONFIGURED } from './supabase'
 import { mockJobs } from '../mock/data'
 
 let _jobs = mockJobs.map(j => ({ ...j }))
 
-// Helper: audit trail stamp (Section 8.1)
 const makeStamp = (action, userId = 'admin') => `${action}-${userId.slice(0, 5)}-${new Date().toISOString().slice(0, 10)}`
 
-// ─────────────────────────────────────────────────────────────────────────────
-// getJobs(userType)
-// ─────────────────────────────────────────────────────────────────────────────
 export const getJobs = async (userType) => {
   if (!SUPABASE_CONFIGURED) {
     return userType === 'USER'
@@ -24,9 +20,6 @@ export const getJobs = async (userType) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// addJob(job, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const addJob = async (job, userId) => {
   const newJob = { ...job, record_status: 'ACTIVE', stamp: makeStamp('CREATED', userId) }
   if (!SUPABASE_CONFIGURED) {
@@ -38,9 +31,6 @@ export const addJob = async (job, userId) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// updateJob(jobcode, updates, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const updateJob = async (jobcode, updates, userId) => {
   const patch = { ...updates, stamp: makeStamp('UPDATED', userId) }
   if (!SUPABASE_CONFIGURED) {
@@ -52,9 +42,6 @@ export const updateJob = async (jobcode, updates, userId) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// softDeleteJob(jobcode, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const softDeleteJob = async (jobcode, userId) => {
   const patch = { record_status: 'INACTIVE', stamp: makeStamp('DEACTIVATED', userId) }
   if (!SUPABASE_CONFIGURED) {
@@ -66,9 +53,6 @@ export const softDeleteJob = async (jobcode, userId) => {
   return data
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// recoverJob(jobcode, userId)
-// ─────────────────────────────────────────────────────────────────────────────
 export const recoverJob = async (jobcode, userId) => {
   const patch = { record_status: 'ACTIVE', stamp: makeStamp('REACTIVATED', userId) }
   if (!SUPABASE_CONFIGURED) {

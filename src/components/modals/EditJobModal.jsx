@@ -1,4 +1,4 @@
-// src/components/modals/EditJobModal.jsx
+
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { updateJob } from '../../lib/jobService'

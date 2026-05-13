@@ -15,13 +15,13 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Hero Welcome */}
+      {}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-xl">
         <h2 className="text-3xl font-extrabold tracking-tight">Welcome back, {user?.user_metadata?.first_name || 'Admin'}!</h2>
         <p className="mt-2 text-blue-100 text-lg">Here's what's happening in Hope, Inc. today.</p>
       </div>
 
-      {/* Stats Grid */}
+      {}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map(i => (
@@ -37,7 +37,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Secondary Content */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
           <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
@@ -47,7 +47,7 @@ export default function Dashboard() {
             <QuickAction icon="📝" label="Job History" link="/reports/employee-history" color="bg-purple-50 text-purple-600" />
           </div>
         </div>
-        
+
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
           <h3 className="text-xl font-bold text-gray-900 mb-4">System Status</h3>
           <div className="space-y-4">

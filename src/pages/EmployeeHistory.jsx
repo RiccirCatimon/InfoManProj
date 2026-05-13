@@ -10,7 +10,7 @@ export default function EmployeeHistory() {
       </div>
 
       {!mockHistory || mockHistory.length === 0 ? (
-        <EmptyState 
+        <EmptyState
           icon="📜"
           title="No History Recorded"
           description="System activities, status edits, and role changes will automatically log and appear here over time."

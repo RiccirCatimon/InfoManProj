@@ -1,5 +1,5 @@
-// src/pages/HeadcountByDeptPage.jsx
-// M2 Sprint 3 PR-02: feat/ui-reports
+
+
 import { useEffect, useState } from 'react'
 import { getHeadcountByDept } from '../lib/reportsService'
 
@@ -29,7 +29,7 @@ export default function HeadcountByDeptPage() {
 
       {!loading && !error && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Bar Chart */}
+          {}
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
             <h3 className="text-sm font-bold text-gray-700 mb-5">Employee Distribution</h3>
             <div className="space-y-4">
@@ -51,7 +51,7 @@ export default function HeadcountByDeptPage() {
             <p className="text-xs text-gray-400 mt-5 text-right">Total: {data.reduce((s, d) => s + d.headcount, 0)} active employees</p>
           </div>
 
-          {/* Table */}
+          {}
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h3 className="text-sm font-bold text-gray-700">Summary Table</h3>

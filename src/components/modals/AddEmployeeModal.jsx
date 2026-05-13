@@ -1,4 +1,4 @@
-// src/components/modals/AddEmployeeModal.jsx
+
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { addEmployee } from '../../lib/employeeService'

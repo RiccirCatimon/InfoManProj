@@ -15,7 +15,7 @@ function Register() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  
+
   const { signUp } = useAuth()
   const navigate = useNavigate()
 
@@ -29,22 +29,21 @@ function Register() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
-    
-    // Validation
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match')
       return
     }
-    
+
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters')
       return
     }
-    
+
     setLoading(true)
-    
+
     const { error } = await signUp(
-      formData.email, 
+      formData.email,
       formData.password,
       {
         first_name: formData.firstName,
@@ -52,7 +51,7 @@ function Register() {
         username: formData.username
       }
     )
-    
+
     if (error) {
       setError(error.message)
       setLoading(false)
@@ -65,7 +64,7 @@ function Register() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* Logo and Header */}
+        {}
         <div style={styles.header}>
           <div style={styles.logoContainer}>
             <div style={styles.logo}>H</div>
@@ -74,7 +73,7 @@ function Register() {
           <p style={styles.subtitle}>Join Hope HR System today</p>
         </div>
 
-        {/* Error Message */}
+        {}
         {error && (
           <div style={styles.error}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -86,7 +85,7 @@ function Register() {
           </div>
         )}
 
-        {/* Register Form */}
+        {}
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.row}>
             <div style={styles.inputGroupHalf}>
@@ -261,7 +260,7 @@ function Register() {
           </button>
         </form>
 
-        {/* Login Link */}
+        {}
         <p style={styles.footer}>
           Already have an account?{' '}
           <Link to="/login" style={styles.link}>Sign in</Link>

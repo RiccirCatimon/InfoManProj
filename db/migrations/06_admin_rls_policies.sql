@@ -1,4 +1,4 @@
--- Relaxed for now as requested
+
 DROP POLICY IF EXISTS "Admin update users" ON "user";
 DROP POLICY IF EXISTS "Admin update user rights" ON "UserModule_Rights";
 DROP POLICY IF EXISTS "User all access" ON "users";

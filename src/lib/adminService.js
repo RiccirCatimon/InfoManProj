@@ -1,11 +1,10 @@
-// src/lib/adminService.js
-// M1 Sprint 3 — PR-01: feat/admin-api
+
+
 import { supabase, SUPABASE_CONFIGURED } from './supabase'
 import { mockUsers } from '../mock/data'
 
 let _users = mockUsers.map(u => ({ ...u }))
 
-// getUsers() — returns all system users; SUPERADMIN rows are read-only
 export const getUsers = async () => {
   if (!SUPABASE_CONFIGURED) return [..._users]
   const { data, error } = await supabase
@@ -16,7 +15,6 @@ export const getUsers = async () => {
   return data
 }
 
-// activateUser(id) — blocked for SUPERADMIN rows
 export const activateUser = async (id) => {
   if (!SUPABASE_CONFIGURED) {
     const target = _users.find(u => u.id === id)
@@ -31,7 +29,6 @@ export const activateUser = async (id) => {
   return data
 }
 
-// deactivateUser(id) — blocked for SUPERADMIN rows
 export const deactivateUser = async (id) => {
   if (!SUPABASE_CONFIGURED) {
     const target = _users.find(u => u.id === id)

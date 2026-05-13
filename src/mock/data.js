@@ -1,6 +1,5 @@
-// src/mock/data.js
 
-// ── System Users (for UserManagement page) ───────────────────────────────────
+
 export const mockUsers = [
   { id: 'user1', username: 'riccir', email: 'riccir.catimon@hopehrs.com', user_type: 'SUPERADMIN', record_status: 'ACTIVE' },
   { id: 'user2', username: 'denver', email: 'denverlee.felix@hopehrs.com', user_type: 'ADMIN', record_status: 'ACTIVE' },
@@ -8,7 +7,6 @@ export const mockUsers = [
   { id: 'user4', username: 'john', email: 'john.smith@hopehrs.com', user_type: 'USER', record_status: 'INACTIVE' },
 ];
 
-// ── Departments ───────────────────────────────────────────────────────────────
 export const mockDepts = [
   { deptcode: 'IT', deptname: 'Information Technology', record_status: 'ACTIVE', stamp: 'INITIAL-SEED 2024-01-01' },
   { deptcode: 'HRD', deptname: 'Human Resources', record_status: 'ACTIVE', stamp: 'INITIAL-SEED 2024-01-01' },
@@ -16,7 +14,6 @@ export const mockDepts = [
   { deptcode: 'MKT', deptname: 'Marketing', record_status: 'INACTIVE', stamp: 'DEACTIVATED-BY-SA 2025-03-15' },
 ];
 
-// ── Jobs ─────────────────────────────────────────────────────────────────────
 export const mockJobs = [
   { jobcode: 'DEV1', jobdesc: 'Software Developer', record_status: 'ACTIVE', stamp: 'INITIAL-SEED 2024-01-01' },
   { jobcode: 'OFF1', jobdesc: 'HR Officer', record_status: 'ACTIVE', stamp: 'INITIAL-SEED 2024-01-01' },
@@ -25,7 +22,6 @@ export const mockJobs = [
   { jobcode: 'SA1', jobdesc: 'Systems Analyst', record_status: 'INACTIVE', stamp: 'DEACTIVATED-BY-SA 2025-01-10' },
 ];
 
-// ── HR Employees ──────────────────────────────────────────────────────────────
 export const mockHREmployees = [
   {
     empno: '00001', lastname: 'Santos', firstname: 'Maria', gender: 'F',
@@ -59,7 +55,6 @@ export const mockHREmployees = [
   },
 ];
 
-// ── Job History ───────────────────────────────────────────────────────────────
 export const mockJobHistory = [
   { id: 1, empno: '00001', jobcode: 'OFF1', jobdesc: 'HR Officer', deptcode: 'HRD', deptname: 'Human Resources', effdate: '2015-03-01', salary: 28000, record_status: 'ACTIVE', stamp: 'INITIAL-SEED' },
   { id: 2, empno: '00002', jobcode: 'DEV1', jobdesc: 'Software Developer', deptcode: 'IT', deptname: 'Information Technology', effdate: '2013-07-15', salary: 35000, record_status: 'ACTIVE', stamp: 'INITIAL-SEED' },
@@ -69,7 +64,6 @@ export const mockJobHistory = [
   { id: 6, empno: '00005', jobcode: 'DEV1', jobdesc: 'Software Developer', deptcode: 'IT', deptname: 'Information Technology', effdate: '2022-09-01', salary: 33000, record_status: 'ACTIVE', stamp: 'INITIAL-SEED' },
 ];
 
-// ── Report Mocks ─────────────────────────────────────────────────────────────
 export const mockHeadcountByDept = [
   { deptcode: 'IT', deptname: 'Information Technology', headcount: 3 },
   { deptcode: 'HRD', deptname: 'Human Resources', headcount: 1 },

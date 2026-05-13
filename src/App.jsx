@@ -1,4 +1,4 @@
-// src/App.jsx — Sprint 2 & 3 full routing + route guard
+
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import { useRights, RIGHTS } from './context/UserRightsContext'
@@ -20,13 +20,10 @@ import SalaryReportPage from './pages/SalaryReportPage'
 import EmployeeHistoryReportPage from './pages/EmployeeHistoryReportPage'
 import Reports from './pages/Reports'
 
-// Route guard: blocks USER role from accessing ADMIN/SUPERADMIN only routes
 function AdminRoute({ children }) {
   const { user } = useAuth()
   const type = user?.user_type || user?.user_metadata?.role || 'USER'
-  
-  // As requested: allow standard users into admin routes too
-  // Normally: if (type === 'USER') return <Navigate to="/" replace />
+
   return children
 }
 
@@ -53,26 +50,26 @@ export default function App() {
           {user && <Sidebar />}
           <main className="flex-1 p-6 overflow-auto bg-gray-50">
             <Routes>
-              {/* Auth */}
+              {}
               <Route path="/login"    element={!user ? <Login />    : <Navigate to="/" />} />
               <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
 
-              {/* Dashboard */}
+              {}
               <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
 
-              {/* HR Modules — Sprint 2 */}
+              {}
               <Route path="/employees"     element={user ? <EmployeeListPage />   : <Navigate to="/login" />} />
               <Route path="/employees/:empno" element={user ? <EmployeeDetailPage /> : <Navigate to="/login" />} />
               <Route path="/jobs"          element={user ? <JobListPage />        : <Navigate to="/login" />} />
               <Route path="/departments"   element={user ? <DeptListPage />       : <Navigate to="/login" />} />
 
-              {/* Deleted Items — ADMIN/SUPERADMIN only (Sprint 2 route guard) */}
+              {}
               <Route path="/deleted-items" element={user ? <AdminRoute><DeletedItemsPage /></AdminRoute> : <Navigate to="/login" />} />
 
-              {/* Admin Module — Sprint 3 */}
+              {}
               <Route path="/user-management" element={user ? <AdminRoute><UserManagementPage /></AdminRoute> : <Navigate to="/login" />} />
 
-              {/* Reports — ADMIN/SUPERADMIN only for security */}
+              {}
               <Route path="/reports"                   element={user ? <AdminRoute><Reports /></AdminRoute>                    : <Navigate to="/login" />} />
               <Route path="/reports/headcount"         element={user ? <AdminRoute><HeadcountByDeptPage /></AdminRoute>        : <Navigate to="/login" />} />
               <Route path="/reports/salary"            element={user ? <AdminRoute><SalaryReportPage /></AdminRoute>           : <Navigate to="/login" />} />

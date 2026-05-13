@@ -1,6 +1,5 @@
-// src/components/Sidebar.jsx
-// M2 PR-05: fix/ui-sidebar-gating — Hide Deleted Items + Admin links for USER
-// M4 PR-04: feat/rights-stamp-sidebar
+
+
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useRights, RIGHTS } from '../context/UserRightsContext'
@@ -17,11 +16,11 @@ export default function Sidebar() {
     { name: 'Employees',    path: '/employees',   icon: '👤', show: true },
     { name: 'Jobs',         path: '/jobs',        icon: '💼', show: true },
     { name: 'Departments',  path: '/departments', icon: '🏢', show: true },
-    // Reports sub-section
+
     { name: 'Headcount',    path: '/reports/headcount',        icon: '📊', show: true, sub: true },
     { name: 'Salary Report',path: '/reports/salary',           icon: '💰', show: true, sub: true },
     { name: 'Emp History',  path: '/reports/employee-history', icon: '📋', show: true, sub: true },
-    // Admin only
+
     { name: 'Deleted Items',   path: '/deleted-items',    icon: '🗑️', show: isAdmin },
     { name: 'User Management', path: '/user-management',  icon: '👥', show: isAdmin && hasRight(RIGHTS.ADM_USER) },
   ]
@@ -34,7 +33,7 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 bg-slate-900 text-white flex flex-col h-full border-r border-slate-800 flex-shrink-0">
-      {/* Brand */}
+      {}
       <div className="p-5 border-b border-slate-800 flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white text-lg">H</div>
         <div>
@@ -43,9 +42,9 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Nav */}
+      {}
       <nav className="flex-1 p-3 overflow-y-auto space-y-0.5">
-        {/* Reports label */}
+        {}
         <div className="px-3 pt-4 pb-1 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Main</div>
         {navItems.slice(0, 4).filter(i => i.show).map(item => (
           <NavLink key={item.path} item={item} active={isActive(item.path)} />
@@ -66,7 +65,7 @@ export default function Sidebar() {
         )}
       </nav>
 
-      {/* User info + Logout */}
+      {}
       <div className="p-3 border-t border-slate-800">
         {user && (
           <div className="px-3 py-2 mb-1 text-xs text-slate-400 truncate">

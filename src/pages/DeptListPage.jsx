@@ -1,5 +1,5 @@
-// src/pages/DeptListPage.jsx
-// M2 PR-03: feat/ui-job-dept
+
+
 import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useRights, RIGHTS } from '../context/UserRightsContext'

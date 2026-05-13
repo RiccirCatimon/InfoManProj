@@ -1,5 +1,5 @@
-// src/pages/UserManagementPage.jsx
-// M2 Sprint 3 PR-01: feat/ui-admin-users — SUPERADMIN row protection
+
+
 import { useEffect, useState, useCallback } from 'react'
 import { getUsers, activateUser, deactivateUser } from '../lib/adminService'
 

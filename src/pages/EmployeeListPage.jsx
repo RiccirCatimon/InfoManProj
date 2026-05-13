@@ -1,5 +1,5 @@
-// src/pages/EmployeeListPage.jsx
-// M2 PR-01: feat/ui-employee-list
+
+
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'

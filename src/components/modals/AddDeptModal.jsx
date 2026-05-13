@@ -1,4 +1,4 @@
-// src/components/modals/AddDeptModal.jsx
+
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { addDept } from '../../lib/departmentService'

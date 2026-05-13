@@ -1,5 +1,5 @@
-// src/pages/DeletedItemsPage.jsx
-// M2 PR-04: feat/ui-deleted-items — ADMIN/SUPERADMIN only
+
+
 import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useRights, RIGHTS } from '../context/UserRightsContext'
@@ -60,7 +60,7 @@ export default function DeletedItemsPage() {
         <p className="text-sm text-gray-500 mt-1">All INACTIVE records across all HR tables. Recover to restore.</p>
       </div>
 
-      {/* Tabs */}
+      {}
       <div className="flex gap-1 bg-gray-100 rounded-xl p-1 w-fit">
         {TABS.map((t, i) => (
           <button key={t} onClick={() => setTab(i)} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === i ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
@@ -74,7 +74,7 @@ export default function DeletedItemsPage() {
         <div className="flex justify-center py-20"><div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
       ) : (
         <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-          {/* Tab 0: Employees */}
+          {}
           {tab === 0 && (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50"><tr>
@@ -101,7 +101,7 @@ export default function DeletedItemsPage() {
             </table>
           )}
 
-          {/* Tab 1: Job History */}
+          {}
           {tab === 1 && (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50"><tr>
@@ -128,7 +128,7 @@ export default function DeletedItemsPage() {
             </table>
           )}
 
-          {/* Tab 2: Jobs */}
+          {}
           {tab === 2 && (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50"><tr>
@@ -151,7 +151,7 @@ export default function DeletedItemsPage() {
             </table>
           )}
 
-          {/* Tab 3: Departments */}
+          {}
           {tab === 3 && (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50"><tr>
