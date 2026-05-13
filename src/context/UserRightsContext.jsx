@@ -44,11 +44,11 @@ const DEMO_RIGHTS = {
     ADM_USER: true,
   },
   USER: {
-    EMP_VIEW: true, EMP_ADD: false, EMP_EDIT: false, EMP_DEL: false,
-    JH_VIEW: true,  JH_ADD: false,  JH_EDIT: false,  JH_DEL: false,
-    JOB_VIEW: true, JOB_ADD: false, JOB_EDIT: false, JOB_DEL: false,
-    DEPT_VIEW: true, DEPT_ADD: false, DEPT_EDIT: false, DEPT_DEL: false,
-    ADM_USER: false,
+    EMP_VIEW: true, EMP_ADD: true, EMP_EDIT: true, EMP_DEL: true,
+    JH_VIEW: true,  JH_ADD: true,  JH_EDIT: true,  JH_DEL: true,
+    JOB_VIEW: true, JOB_ADD: true, JOB_EDIT: true, JOB_DEL: true,
+    DEPT_VIEW: true, DEPT_ADD: true, DEPT_EDIT: true, DEPT_DEL: true,
+    ADM_USER: true,
   },
 }
 
@@ -62,7 +62,7 @@ export const UserRightsProvider = ({ children }) => {
 
     const fetchRights = async () => {
       if (!SUPABASE_CONFIGURED) {
-        const role = user?.user_metadata?.role ?? 'USER'
+        const role = user?.user_type || user?.user_metadata?.role || 'USER'
         setRights(DEMO_RIGHTS[role] ?? DEMO_RIGHTS.USER)
         setLoading(false)
         return
@@ -76,9 +76,17 @@ export const UserRightsProvider = ({ children }) => {
         
         const map = {}
         data.forEach(r => { map[r.right_code] = r.has_access === 1 || r.has_access === true })
-        setRights(map)
+        
+        // As requested: ensure USER role also gets all rights in the UI
+        // We override with DEMO_RIGHTS if standard user to bypass DB restrictions for now
+        const role = user?.user_type || user?.user_metadata?.role || 'USER'
+        if (role === 'USER') {
+          setRights(DEMO_RIGHTS.USER)
+        } else {
+          setRights(map)
+        }
       } catch {
-        const role = user?.user_metadata?.role ?? 'USER'
+        const role = user?.user_type || user?.user_metadata?.role || 'USER'
         setRights(DEMO_RIGHTS[role] ?? DEMO_RIGHTS.USER)
       } finally {
         setLoading(false)
@@ -88,7 +96,7 @@ export const UserRightsProvider = ({ children }) => {
   }, [user])
 
   const hasRight = (right) => !!rights[right]
-  const userRole = user?.user_metadata?.role ?? null
+  const userRole = user?.user_type || user?.user_metadata?.role || null
 
   return (
     <UserRightsContext.Provider value={{ rights, loading, hasRight, userRole }}>

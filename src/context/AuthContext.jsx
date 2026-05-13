@@ -65,21 +65,26 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session) {
         // Section 4.2 Login Guard
-        const { data: userRow, error } = await supabase
+        const { data: userRow } = await supabase
           .from('users')
           .select('record_status, user_type')
           .eq('id', session.user.id)
           .single()
         
-        // Allow login if ACTIVE or if they are a SUPERADMIN
-        const isAllowed = userRow?.record_status === 'ACTIVE' || userRow?.user_type === 'SUPERADMIN';
-        
-        if (userRow && !isAllowed) {
-          await supabase.auth.signOut()
-          alert('Your account is pending activation by an HR administrator.')
-          setUser(null)
-          setSession(null)
-          return
+        if (userRow) {
+          // Merge user_type into the user object so App.jsx can see it
+          session.user.user_type = userRow.user_type;
+          
+          // Allow login if ACTIVE or if they are a SUPERADMIN
+          const isAllowed = userRow.record_status === 'ACTIVE' || userRow.user_type === 'SUPERADMIN';
+          
+          if (!isAllowed) {
+            await supabase.auth.signOut()
+            alert('Your account is pending activation by an HR administrator.')
+            setUser(null)
+            setSession(null)
+            return
+          }
         }
       }
       setSession(session)
@@ -98,7 +103,7 @@ export function AuthProvider({ children }) {
       if (!found) {
         return { data: null, error: { message: 'Invalid email or password. (Demo mode — try admin@hopehrs.com / admin123)' } }
       }
-      const mockUser = { id: found.id, email: found.email, user_metadata: found.user_metadata }
+      const mockUser = { id: found.id, email: found.email, user_metadata: found.user_metadata, user_type: found.user_metadata.role }
       saveDemoSession(mockUser)
       setUser(mockUser)
       setSession({ user: mockUser })
@@ -123,6 +128,11 @@ export function AuthProvider({ children }) {
       return { error: null }
     }
     const { error } = await supabase.auth.signOut()
+    // Manually clear state to ensure UI updates even if onAuthStateChange is delayed
+    if (!error) {
+      setUser(null)
+      setSession(null)
+    }
     return { error }
   }
 
